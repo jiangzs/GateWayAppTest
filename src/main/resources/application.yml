@@ -1,0 +1,40 @@
+server:
+  port: 9292
+
+
+hystrix:
+  threadpool.default.coreSize: 30
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 2000
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    userservice: /myusers/**
+    orderservice: /myorders/**
+#  trace-request-body: true
+#  debug:
+#    request: true
+
+
+spring:
+  rabbitmq:
+    host: 192.168.99.100
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: testtock
+          contentType: text/plain
+        input:
+          destination: logs
+    config:
+      profile: ${config.profile:docker} # profile
+      name: log_queue        # 配置文件
